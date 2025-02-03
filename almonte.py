@@ -1,9 +1,12 @@
 import discord
 import asyncio
 import os
+from dotenv import load_dotenv
 import requests
 import random
 from nltk.corpus import wordnet as wn
+
+load_dotenv()
 
 # https://www.mit.edu/~ecprice/wordlist.10000
 TOKEN = os.environ['TOKEN']
