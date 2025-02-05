@@ -6,6 +6,7 @@ import requests
 import random
 from nltk.corpus import wordnet as wn
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
+from nltk.sentiment import SentimentIntensityAnalyzer
 
 load_dotenv()
 
@@ -15,6 +16,8 @@ TOKEN = os.environ['TOKEN']
 intents = discord.Intents.default()
 intents.message_content = True
 client = discord.Client(intents=intents)
+
+sia = SentimentIntensityAnalyzer()
 
 with open('words.txt', 'r+') as f:
   # f.write(requests.get('https://www.mit.edu/~ecprice/wordlist.10000').content.decode())
@@ -131,7 +134,15 @@ async def on_message(message):
       await message.edit(content=res)
     except:
       await message.channel.send('error !')
-
+  
+  elif 'analyze ' in l_msg:
+    _, thing = l_msg.split(' ', 1)
+    analysis = sia.polarity_scores(thing)
+    analysis = f"""negative: {analysis['neg']}
+neutral: {analysis['neu']}
+positive: {analysis['pos']}
+compound: {analysis['compound']}"""
+    await message.channel.send(analysis)
   
   elif 'random car' in l_msg:
     await message.channel.send(random_car())
