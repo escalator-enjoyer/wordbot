@@ -67,7 +67,7 @@ async def on_message(message):
 
   l_msg = message.content.strip().lower()
 
-  if 'random word ' in l_msg:
+  if 'random word' in l_msg:
     word = random_words(1)[0]
     syns = wn.synsets(word)
     spain = wn.synsets('spain')
